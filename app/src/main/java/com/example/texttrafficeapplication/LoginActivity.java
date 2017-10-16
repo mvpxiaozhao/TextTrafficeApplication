@@ -25,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     UrlBean urlBean;
     private String urlHttp;
     private String urlPort = "80";
+    String d="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
