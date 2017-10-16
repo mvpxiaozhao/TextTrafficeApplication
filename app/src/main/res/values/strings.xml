@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">TextTrafficeApplication</string>
+    <string name="url_ip">IP地址：</string>
+    <string name="url_port">端口：</string>
+    <string name="button_save">保存</string>
+    <string name="button_cancel">取消</string>
+
+    <string name="button_ok">登  录</string>
+    <string name="checkbox_r">记住我</string>
+    <string name="login_title">用户登录</string>
+    <string name="login_net_setting">网络设置</string>
+    <string name="error_ip">服务器地址不能为空！</string>
+    <string name="info_app">欢迎使用智能交通APP！
+"本系统的主要功能包括我的账户、账单管理、红绿灯管理、违章视频、公交查询、实时环境和车位查询等。</string>
+    <string name="res_left_wodezhanghu">模块1</string>
+    <string name="res_left_zhanghuguanli">模块2</string>
+    <string name="res_left_honglvdengguanli">模块3</string>
+    <string name="res_left_wodezhanghu4">模块4</string>
+    <string name="res_left_zhanghuguanli5">模块5</string>
+    <string name="res_left_honglvdengguanli6">模块6</string>
+    <string name="res_left_wodezhanghu7">模块7</string>
+    <string name="res_left_zhanghuguanli8">模块8</string>
+    <string name="res_left_honglvdengguanli9">模块9</string>
+    <string name="res_left_chuanyi">创意</string>
+    <string name="res_left_exit">用户退出</string>
+
+    <string name="f1_button_plcz">批量充值</string>
+    <string name="f1_button_czjl">充值记录</string>
+    <string name="f1_button_list_cz">充值</string>
+    <string name="recharge_title">账户充值</string>
+</resources>
