@@ -15,6 +15,7 @@ import com.example.texttrafficeapplication.R;
 
 public class Fragment_01 extends Fragment {
     String ss="";
+    String saasc="";
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
