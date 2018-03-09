@@ -43,14 +43,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Button" />
+            android:text="充值" />
 
         <Button
             android:id="@+id/buttont"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Button" />
+            android:text="取消" />
     </LinearLayout>
 
 </LinearLayout>

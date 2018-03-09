@@ -20,26 +20,19 @@ import java.util.Map;
  */
 
 public class adper extends BaseAdapter {
-    List<Map<String,Object>> list;
+    List<Map<String, Object>> list;
     LayoutInflater layoutInflater;
     But but;
     CCC ccc;
-    public adper(Context context, List<Map<String, Object>> list,But but,CCC ccc){
-        layoutInflater=LayoutInflater.from(context);
-        this.list=list;
-        this.but=but;this.ccc=ccc;
+
+    public adper(Context context, List<Map<String, Object>> list, But but, CCC ccc) {
+        layoutInflater = LayoutInflater.from(context);
+        this.list = list;
+        this.but = but;
+        this.ccc = ccc;
 
     }
-  public  class   hjhjh{
-        private TextView textView2;
-        private ImageView imageView3;
-        private TextView textView5;
-        private TextView textView4;
-        private CheckBox checkBox2;
-        private Button button;
-      private TextView textView6;
 
-    }
     @Override
     public int getCount() {
         return list.size();
@@ -57,23 +50,40 @@ public class adper extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        hjhjh hjhjh=new hjhjh();
-        convertView=layoutInflater.inflate(R.layout.adasd,null);
-        hjhjh.textView2 = (TextView) convertView.findViewById(R.id.textView2);
-        hjhjh.imageView3 = (ImageView) convertView.findViewById(R.id.imageView3);
-        hjhjh.textView5 = (TextView) convertView.findViewById(R.id.textView5);
-        hjhjh.textView4 = (TextView) convertView.findViewById(R.id.textView4);
-        hjhjh.checkBox2 = (CheckBox) convertView.findViewById(R.id.checkBox2);
-        hjhjh.textView6 = (TextView) convertView.findViewById(R.id.textView6);
-        hjhjh.button = (Button) convertView.findViewById(R.id.button);
-        hjhjh.textView2.setText(list.get(position).get("k1").toString());
-        hjhjh.textView5.setText(list.get(position).get("k2").toString());
-        hjhjh.textView4.setText(list.get(position).get("k3").toString());
-        hjhjh.textView6.setText(list.get(position).get("k4").toString());
-        hjhjh.checkBox2.setOnCheckedChangeListener(ccc);
-        hjhjh.button.setOnClickListener(but);
-        hjhjh.checkBox2.setTag(position);
-        hjhjh.button.setTag(position);
+        ViewHolder viewHolder = null;
+        if (convertView == null) {
+            viewHolder = new ViewHolder();
+            convertView = layoutInflater.inflate(R.layout.adasd, null);
+            viewHolder.id = (TextView) convertView.findViewById(R.id.id);
+            viewHolder.image = (ImageView) convertView.findViewById(R.id.image);
+            viewHolder.plateNamber = (TextView) convertView.findViewById(R.id.plateNamber);
+            viewHolder.name = (TextView) convertView.findViewById(R.id.name);
+            viewHolder.money = (TextView) convertView.findViewById(R.id.money);
+            viewHolder.xuzhong = (CheckBox) convertView.findViewById(R.id.xuzhong);
+            viewHolder.chongzhi = (Button) convertView.findViewById(R.id.chongzhi);
+            convertView.setTag(viewHolder);
+        }
+
+
+        viewHolder.id.setText(position + 1);
+        viewHolder.plateNamber.setText(list.get(position).get("plateNamber").toString());
+        viewHolder.name.setText(list.get(position).get("name").toString());
+        viewHolder.money.setText(list.get(position).get("balance").toString());
+
+        viewHolder.xuzhong.setOnCheckedChangeListener(ccc);
+        viewHolder.chongzhi.setOnClickListener(but);
+        viewHolder.xuzhong.setTag(position);
+        viewHolder.chongzhi.setTag(position);
         return convertView;
+    }
+
+    class ViewHolder {
+        private TextView id;
+        private ImageView image;
+        private TextView plateNamber;
+        private TextView name;
+        private TextView money;
+        private CheckBox xuzhong;
+        private Button chongzhi;
     }
 }

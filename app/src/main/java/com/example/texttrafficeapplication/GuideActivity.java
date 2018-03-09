@@ -19,7 +19,5 @@ public class GuideActivity extends AppCompatActivity {
                 finish();
             }
         }, 2000);
-
     }
-
 }
