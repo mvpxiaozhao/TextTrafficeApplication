@@ -1,288 +1,206 @@
 package com.example.texttrafficeapplication.Fragment;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListView;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.app.Dialog;
+        import android.app.NotificationManager;
+        import android.app.PendingIntent;
+        import android.content.Context;
+        import android.content.Intent;
+        import android.content.SharedPreferences;
+        import android.os.Bundle;
+        import android.os.Looper;
+        import android.support.annotation.Nullable;
+        import android.support.v4.app.Fragment;
+        import android.support.v4.app.NotificationCompat;
+        import android.util.Log;
+        import android.view.LayoutInflater;
+        import android.view.View;
+        import android.view.ViewGroup;
+        import android.widget.ArrayAdapter;
+        import android.widget.Button;
+        import android.widget.EditText;
+        import android.widget.SimpleAdapter;
+        import android.widget.Spinner;
+        import android.widget.TextView;
+        import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
+        import com.android.volley.Request;
+        import com.android.volley.RequestQueue;
+        import com.android.volley.Response;
+        import com.android.volley.VolleyError;
+        import com.android.volley.toolbox.JsonObjectRequest;
+        import com.android.volley.toolbox.Volley;
+import com.example.texttrafficeapplication.MainActivity;
 import com.example.texttrafficeapplication.R;
-import com.example.texttrafficeapplication.UrlBean;
-import com.example.texttrafficeapplication.Util;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
+        import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+        import java.text.SimpleDateFormat;
+        import java.util.ArrayList;
+        import java.util.Date;
+        import java.util.List;
+        import java.util.Timer;
+        import java.util.TimerTask;
 
-/**
- * Created by 赵洪斌 on 2017/10/16.
- */
+        import static android.content.Context.NOTIFICATION_SERVICE;
 
 public class Fragment_02 extends Fragment {
-    private ExpandableListView exlv;
-    private int stationId;
-    private int netFlag;
-    private String urlHost;
-    private List<Map<String, Object>> groupDate;
-    private List<List<Map<String, Object>>> childDate;
-
-    @Nullable
+    private TextView zhuang;
+    private Spinner sppin;
+    private Button chaxun;
+    private Button chngzhi;
+    List<String> listss=new ArrayList<>();
+    String dddd[]={"1","2","3","4"};
+    private EditText ededd;
+    int eeeeeeee=0;
+    DBAdapter dbAdapter;
     @Override
-
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_02, container, false);
-        return view;
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_blank, container, false);
     }
-
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        exlv = (ExpandableListView) getActivity().findViewById(R.id.exlv);
-        UrlBean connection = Util.loadSetting(getContext());
-        urlHost = "http://"+connection.getUrl()+":"+connection.getPort()+"/tr";
-        stationId = 1;
-        netFlag = 1;
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("BusStationId",stationId);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        intent(urlHost,jsonObject);
-
-
-    }
-
-    private void intent(String urlHost, JSONObject jsonObject) {
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, urlHost, jsonObject, new Response.Listener<JSONObject>() {
-            private String distance2;
-            private String distance1;
-            private String distance3;
-            private String distance4;
-            private JSONObject jo1;
-            private JSONObject jo2;
-            private JSONObject jo3;
-            private JSONObject jo4;
-            private JSONArray jsonArray;
-            private String serverinfo;
-
+        zhuang = (TextView) getActivity().findViewById(R.id.zhuang);
+        sppin = (Spinner) getActivity().findViewById(R.id.sppin);
+        chaxun = (Button) getActivity().findViewById(R.id.chaxun);
+        chngzhi = (Button) getActivity().findViewById(R.id.chngzhi);
+        ededd = (EditText) getActivity().findViewById(R.id.ededd);
+        listss.add("1");
+        listss.add("2");
+        listss.add("3");
+        listss.add("4");
+        dbAdapter=new DBAdapter(getContext());
+        dbAdapter.openDB();
+        ArrayAdapter arrayAdapter=new ArrayAdapter(getContext(),android.R.layout.simple_list_item_1,listss);
+        sppin.setAdapter(arrayAdapter);
+        final Dialog  dialog=new Dialog(getContext());
+        dialog.getWindow().setContentView(R.layout.fragment_blankdddd);
+        final EditText setttteeee = (EditText) dialog.getWindow().findViewById(R.id.setttteeee);
+        Button  settt = (Button) dialog.getWindow().findViewById(R.id.settt);
+        settt.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onResponse(JSONObject jsonObject) {
+            public void onClick(View view) {
+                String dddd=setttteeee.getText().toString();
+                if(!dddd.equals("")){
+                    Log.i("sdfdfdf",dddd);
+                    SharedPreferences sharedPreferences=getContext().getSharedPreferences("zhaohog", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor=sharedPreferences.edit();
+                    editor.putInt("eeeee", Integer.parseInt(dddd));
+                    editor.commit();
+                    dialog.dismiss();
+                }else{
+                    Toast.makeText(getContext(),"不能为空", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+        dialog.show();
+
+
+        chaxun.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                JSONObject jsonObject=new JSONObject();
+                SharedPreferences sharedPreferences=getContext().getSharedPreferences("zhaohog", Context.MODE_PRIVATE);
+                eeeeeeee=sharedPreferences.getInt("eeeee",0);
+                int eee= Integer.parseInt(sppin.getSelectedItem().toString());
                 try {
-                    serverinfo = jsonObject.optString("serverinfo");
-                    jsonArray = new JSONArray(serverinfo);
+                    jsonObject.put("CarId",eee);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                if (netFlag ==1){
+                String ssss="http://192.168.1.102:8080/transportservice/type/jason/action/GetCarAccountBalance.do";
+                RequestQueue requestQueue= Volley.newRequestQueue(getContext());
+                JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.POST, ssss, jsonObject, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject jsonObject) {
+                        Log.i("sdfdfdf", String.valueOf(jsonObject));
+                        String fsdfsdf= String.valueOf(jsonObject);
+                        try {
+                            JSONObject jdd=new JSONObject(fsdfsdf);
+                            String dddd=jdd.getString("serverinfo");
+                            JSONObject www=new JSONObject(dddd);
+                            int ddddee=www.getInt("Balance");
+                            if(ddddee>eeeeeeee){
+                            }else{
+                                Log.i("sfdsdfsdf", String.valueOf(eeeeeeee));
+                                Intent i = new Intent(getContext(), MainActivity.class);
+                                PendingIntent pendingIntent = PendingIntent.getActivity(getContext(),0, i, 0);
+                                NotificationManager nm = (NotificationManager) getActivity().getSystemService(NOTIFICATION_SERVICE);
+                                NotificationCompat.Builder notifBuilder = new NotificationCompat.Builder(getContext())
+                                        .setSmallIcon(R.mipmap.ic_launcher)
+                                        .setContentTitle("余额不足")
+                                        .setContentText("余额以低于"+eeeeeeee+"元").setAutoCancel(true)
+                                        .addAction(R.mipmap.ic_launcher, "Notzuonotdied",pendingIntent);
+                                assert nm != null;
+                                nm.notify(0, notifBuilder.build());
+                            }
+                            zhuang.setText(ddddee+"元");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
-                    try {
-                        jo1 = jsonArray.getJSONObject(0);
-                        jo2 = jsonArray.getJSONObject(1);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
-                    distance1 = jo1.optString("Distance");
-                    distance2 = jo2.optString("Distance");
-                    nextStation();
-                }else if (netFlag ==2){
-                    try {
-                        jo3 = jsonArray.getJSONObject(0);
-                        jo4 = jsonArray.getJSONObject(1);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    distance3 = jo3.optString("Distance");
-                    distance4 = jo4.optString("Distance");
-                    paixu(distance1,distance2,distance3,distance4);
-                }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
 
+                    }
+                });
+                requestQueue.add(jsonObjectRequest);
             }
-        }, new Response.ErrorListener() {
+        });
+        chngzhi.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onErrorResponse(VolleyError volleyError) {
+            public void onClick(View view) {
+                final String ddddddd=ededd.getText().toString();
+
+                if(!ddddddd.equals("")){
+                    int rwer= Integer.parseInt(ddddddd);
+                    if(rwer==0||rwer>999){
+                        Toast.makeText(getContext(), "不能大于999", Toast.LENGTH_SHORT).show();
+
+                    }else{
+                        JSONObject jsonObject=new JSONObject();
+                        final int eee= Integer.parseInt(sppin.getSelectedItem().toString());
+                        try {
+                            jsonObject.put("CarId",eee);
+                            jsonObject.put("Money",rwer);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        String ssss="http://192.168.1.102:8080/transportservice/type/jason/action/SetCarAccountRecharge.do";
+                        RequestQueue requestQueue= Volley.newRequestQueue(getContext());
+                        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.POST, ssss, jsonObject, new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject jsonObject) {
+                                Log.i("sdfdfdf", String.valueOf(jsonObject));
+                                long time =System.currentTimeMillis();
+                                Date date=new Date(time);
+                                SimpleDateFormat dateFormat=new SimpleDateFormat("HH.mm.ss");
+                                String dddd=dateFormat.format(date);
+                                rrrrtt urlBean=new rrrrtt(String.valueOf(eee),dddd,ddddddd);
+                                dbAdapter.Insert(urlBean);
+                                Toast.makeText(getContext(),"成功", Toast.LENGTH_SHORT).show();
+
+
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError volleyError) {
+                            }
+                        });
+                        requestQueue.add(jsonObjectRequest);
+                    }
+
+                }else{
+
+                }
 
             }
         });
-        requestQueue.add(jsonObjectRequest);
-    }
-
-    private void paixu(String distance1, String distance2, String distance3, String distance4) {
-        int d1 = Integer.parseInt(distance1);
-        int d2 = Integer.parseInt(distance2);
-        int d3 = Integer.parseInt(distance3);
-        int d4 = Integer.parseInt(distance4);
-
-        int time1 = d1/(2000/60);
-        int time2 = d2/(2000/60);
-        int time3 = d3/(2000/60);
-        int time4 = d4/(2000/60);
-
-        if (d1>d2){
-            int d = d1;
-            d1 = d2;
-            d2 = d;
-        }
-        if (d3>d4){
-            int d = d3;
-            d3 = d4;
-            d4 = d;
-        }
-
-        groupDate = new ArrayList<>();
-        childDate = new ArrayList<>();
-
-        Map<String,Object> date = new HashMap<>();
-        date.put("name","中医院");
-        groupDate.add(date);
-
-        date = new HashMap<>();
-        date.put("name","县医院");
-        groupDate.add(date);
-
-        List<Map<String,Object>> child = new ArrayList<>();
-        Map<String,Object> son  = new HashMap<>();
-
-        son.put("time",time1);
-        son.put("distance",d1);
-        son.put("number","101人");
-        child.add(son);
-
-        son  = new HashMap<>();
-        son.put("time",time2);
-        son.put("distance",d2);
-        son.put("number","101人");
-        child.add(son);
-        childDate.add(child);
-
-        child = new ArrayList<>();
-        son  = new HashMap<>();
-        son.put("time",time3);
-        son.put("distance",d3);
-        son.put("number","101人");
-        child.add(son);
-
-        son  = new HashMap<>();
-        son.put("time",time4);
-        son.put("distance",d4);
-        son.put("number","101人");
-        child.add(son);
-        childDate.add(child);
-
-        exlv.setAdapter(new BaseExpandableListAdapter() {
-            @Override
-            public int getGroupCount() {
-                return groupDate.size();
-            }
-
-            @Override
-            public int getChildrenCount(int i) {
-                return groupDate.get(i).size();
-            }
-
-            @Override
-            public Object getGroup(int i) {
-                return groupDate.get(i);
-            }
-
-            @Override
-            public Object getChild(int i, int i1) {
-                return groupDate.get(i).get(i1);
-            }
-
-            @Override
-            public long getGroupId(int i) {
-                return i;
-            }
-
-            @Override
-            public long getChildId(int i, int i1) {
-                return i1;
-            }
-
-            @Override
-            public boolean hasStableIds() {
-                return false;
-            }
-
-            @Override
-            public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
-                 ImageView imageView;
-                 TextView text;
-
-                if (view ==null){
-                    view = View.inflate(getContext(),R.layout.item,null);
-                }
-                imageView = (ImageView) view.findViewById(R.id.imageView);
-                text = (TextView) view.findViewById(R.id.text);
-                if (b){
-                    imageView.setImageResource(R.drawable.jian);
-                }else {
-                    imageView.setImageResource(R.drawable.jia);
-                }
-                text.setText(groupDate.get(i).toString());
-                return view;
-            }
-
-            @Override
-            public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
-
-                 ImageView imageView;
-                 TextView number;
-                 TextView time;
-                 TextView distance;
-                if (view == null){
-                    view = View.inflate(getContext(),R.layout.item2,null);
-                }
-                imageView = (ImageView)view. findViewById(R.id.imageView);
-                number = (TextView)view. findViewById(R.id.number);
-                time = (TextView)view. findViewById(R.id.time);
-                distance = (TextView) view.findViewById(R.id.distance);
-
-                number.setText(childDate.get(i).get(i1).get("number").toString());
-                time.setText(childDate.get(i).get(i1).get("time").toString());
-                distance.setText(childDate.get(i).get(i1).get("distance").toString());
-                return view;
-            }
-
-            @Override
-            public boolean isChildSelectable(int i, int i1) {
-                return false;
-            }
-        });
-
-
-    }
-
-    private void nextStation() {
-        stationId++;
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("BusStationId",stationId);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        netFlag = 2;
-
-        intent(urlHost,jsonObject);
     }
 }
